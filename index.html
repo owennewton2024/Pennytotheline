@@ -18,6 +18,65 @@
       margin-bottom: 30px;
       text-transform: uppercase;
     }
+    .rules-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .rules-box {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+    .rules-box:hover {
+      background-color: #0056b3;
+    }
+    .rules-popup {
+      display: none;
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translate(-50%, -20%);
+      width: 90%;
+      max-width: 500px;
+      background-color: white;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+    }
+    .rules-popup h2 {
+      margin-top: 0;
+    }
+    .rules-popup p {
+      margin: 10px 0;
+      line-height: 1.5;
+    }
+    .close-button {
+      display: block;
+      text-align: right;
+      font-size: 16px;
+      font-weight: bold;
+      color: red;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
     .color-row {
       display: flex;
       align-items: center;
@@ -69,6 +128,31 @@
 </head>
 <body>
   <h1>PENNY TO THE LINE</h1>
+
+  <div class="rules-container">
+    <div class="rules-box" onclick="showRules()">RULES</div>
+  </div>
+
+  <div class="overlay" id="overlay" onclick="hideRules()"></div>
+
+  <div class="rules-popup" id="rules-popup">
+    <div class="close-button" onclick="hideRules()">X</div>
+    <h2>Game Set Up</h2>
+    <p>Place the red tape where you can comfortably stand behind. This is where you will throw your coin from.</p>
+    <p>Place the black tape in front of you to a distance you wish to play. We recommend 3 meters, but you can place it where you feel like.</p>
+    <h2>Game Play Rules</h2>
+    <ol>
+      <li>Youngest player starts by throwing their coin.</li>
+      <li>Go in age order.</li>
+      <li>Closest to the line without going over wins a point.</li>
+      <li>If you go over the line, you are disqualified for that round.</li>
+      <li>Winner of the previous round goes first in the next round.</li>
+      <li>Land your coin on another coin, and you are awarded 2 points. That person loses 1 point.</li>
+      <li>Land on the line in full, and you are awarded 5 points.</li>
+      <li>First to 10 points wins.</li>
+    </ol>
+  </div>
+
   <div id="color-list"></div>
 
   <script>
@@ -93,7 +177,7 @@
       const colorName = document.createElement('div');
       colorName.className = 'color-name';
       colorName.textContent = color.name;
-      colorName.style.color = color.colorCode; // Set text color dynamically
+      colorName.style.color = color.colorCode;
 
       const counter = document.createElement('div');
       counter.className = 'counter';
@@ -104,7 +188,7 @@
       minusButton.onclick = () => {
         const currentValue = parseInt(counterValue.textContent, 10);
         counterValue.textContent = Math.max(currentValue - 1, 0);
-        checkWinner(); // Check if there's a winner after subtracting
+        checkWinner();
       };
 
       const counterValue = document.createElement('span');
@@ -117,19 +201,19 @@
       plusButton.onclick = () => {
         const currentValue = parseInt(counterValue.textContent, 10);
         counterValue.textContent = currentValue + 1;
-        checkWinner(); // Check if there's a winner after adding
+        checkWinner();
       };
 
       const winnerMessage = document.createElement('span');
       winnerMessage.className = 'winner-message';
-      winnerMessage.style.display = 'none'; // Initially hidden
+      winnerMessage.style.display = 'none';
 
       const checkWinner = () => {
         if (parseInt(counterValue.textContent, 10) === 10) {
-          winnerMessage.style.display = 'inline'; // Show "Winner!!" message
+          winnerMessage.style.display = 'inline';
           winnerMessage.textContent = "Winner!!";
         } else {
-          winnerMessage.style.display = 'none'; // Hide message
+          winnerMessage.style.display = 'none';
         }
       };
 
@@ -143,6 +227,16 @@
 
       colorList.appendChild(row);
     });
+
+    function showRules() {
+      document.getElementById('rules-popup').style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
+    }
+
+    function hideRules() {
+      document.getElementById('rules-popup').style.display = 'none';
+      document.getElementById('overlay').style.display = 'none';
+    }
   </script>
 </body>
 </html>
