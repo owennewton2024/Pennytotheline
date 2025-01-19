@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PENNY TO THE LINE</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #444;
+      margin-bottom: 30px;
+      text-transform: uppercase;
+    }
+    .color-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .color-name {
+      flex: 1;
+      font-size: 18px;
+      font-weight: 500;
+    }
+    .counter {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .button {
+      padding: 8px 12px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #007bff;
+      color: #fff;
+      transition: background-color 0.3s ease;
+    }
+    .button:hover {
+      background-color: #0056b3;
+    }
+    .counter-value {
+      font-size: 18px;
+      min-width: 40px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .winner-message {
+      font-size: 18px;
+      color: green;
+      font-weight: bold;
+      margin-left: 15px;
+    }
+  </style>
+</head>
+<body>
+  <h1>PENNY TO THE LINE</h1>
+  <div id="color-list"></div>
+
+  <script>
+    const colors = [
+      { name: "Red", colorCode: "red" },
+      { name: "Blue", colorCode: "blue" },
+      { name: "Green", colorCode: "green" },
+      { name: "Yellow", colorCode: "yellow" },
+      { name: "Orange", colorCode: "orange" },
+      { name: "Purple", colorCode: "purple" },
+      { name: "Pink", colorCode: "pink" },
+      { name: "Brown", colorCode: "brown" },
+      { name: "Gray", colorCode: "gray" },
+      { name: "Black", colorCode: "black" }
+    ];
+    const colorList = document.getElementById('color-list');
+
+    colors.forEach((color) => {
+      const row = document.createElement('div');
+      row.className = 'color-row';
+
+      const colorName = document.createElement('div');
+      colorName.className = 'color-name';
+      colorName.textContent = color.name;
+      colorName.style.color = color.colorCode; // Set text color dynamically
+
+      const counter = document.createElement('div');
+      counter.className = 'counter';
+
+      const minusButton = document.createElement('button');
+      minusButton.className = 'button';
+      minusButton.textContent = '-';
+      minusButton.onclick = () => {
+        const currentValue = parseInt(counterValue.textContent, 10);
+        counterValue.textContent = Math.max(currentValue - 1, 0);
+        checkWinner(); // Check if there's a winner after subtracting
+      };
+
+      const counterValue = document.createElement('span');
+      counterValue.className = 'counter-value';
+      counterValue.textContent = '0';
+
+      const plusButton = document.createElement('button');
+      plusButton.className = 'button';
+      plusButton.textContent = '+';
+      plusButton.onclick = () => {
+        const currentValue = parseInt(counterValue.textContent, 10);
+        counterValue.textContent = currentValue + 1;
+        checkWinner(); // Check if there's a winner after adding
+      };
+
+      const winnerMessage = document.createElement('span');
+      winnerMessage.className = 'winner-message';
+      winnerMessage.style.display = 'none'; // Initially hidden
+
+      const checkWinner = () => {
+        if (parseInt(counterValue.textContent, 10) === 10) {
+          winnerMessage.style.display = 'inline'; // Show "Winner!!" message
+          winnerMessage.textContent = "Winner!!";
+        } else {
+          winnerMessage.style.display = 'none'; // Hide message
+        }
+      };
+
+      counter.appendChild(minusButton);
+      counter.appendChild(counterValue);
+      counter.appendChild(plusButton);
+
+      row.appendChild(colorName);
+      row.appendChild(counter);
+      row.appendChild(winnerMessage);
+
+      colorList.appendChild(row);
+    });
+  </script>
+</body>
+</html>
